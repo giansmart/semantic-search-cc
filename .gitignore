@@ -1,0 +1,65 @@
+# 🔹 Terraform archivos y directorios locales
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+terraform.tfvars
+*.tfvars.json
+terraform.tfstate.d/
+crash.log
+override.tf
+override.tf.json
+*.tfplan
+.plan
+
+# 🔹 AWS Credenciales y configuraciones sensibles
+.aws/
+*.pem
+*.key
+.env
+config/
+
+# 🔹 Archivos de Python innecesarios
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pytest_cache/
+.mypy_cache/
+*.egg-info/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# 🔹 Lambda archivos y dependencias empaquetadas
+*.zip
+venv/
+env/
+dist/
+build/
+lambda_upload.zip
+lambda_search.zip
+
+# 🔹 OpenSearch archivos temporales
+*.log
+nohup.out
+
+# 🔹 Node.js si usas Serverless Framework o algún script en Node
+node_modules/
+npm-debug.log
+yarn.lock
+package-lock.json
+
+# 🔹 Directorios y archivos de IDEs
+.vscode/
+.idea/
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+.DS_Store
+.venv
+infra/package/**
+*.zip
+package
