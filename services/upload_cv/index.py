@@ -1,12 +1,16 @@
 import json
 import base64
 import io
-import os
-import re
 from pypdf import PdfReader
 import boto3
 
 LAMBDA_CLIENT = boto3.client("lambda")
+
+CORS_HEADERS = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "OPTIONS,POST",
+    "Access-Control-Allow-Headers": "Content-Type"
+}
 
 def invoke_manage_embeddings(applicant_name, text):
     """Llama a la Lambda `manage_embeddings` con el texto extraído"""
@@ -16,24 +20,44 @@ def invoke_manage_embeddings(applicant_name, text):
         Payload=json.dumps({"body": json.dumps({"nombre": applicant_name, "texto": text, "accion": "guardar_data"})}),
     )
     return response
-
 def lambda_handler(event, context):
     try:
-        print("📌 Iniciando procesamiento...")
+        print("📌 Recibiendo evento:", event)
+
+        # ✅ Manejar solicitud OPTIONS para CORS
+        if event.get("httpMethod") == "OPTIONS":
+            print("❌ El servidor no permite esta solicitud")
+            return {
+                "statusCode": 200,
+                "headers": CORS_HEADERS,
+                "body": json.dumps({"message": "El servidor no permite esta solicitud"})
+            }
+
         # 🟢 Verificar si el archivo fue enviado correctamente
         if "body" not in event:
-            return {"statusCode": 400, "body": json.dumps("No file uploaded")}
-
+            return {
+                "statusCode": 400,
+                "headers": CORS_HEADERS,
+                "body": json.dumps("No file uploaded")
+            }
 
         # 🟢 Decodificar JSON del body (porque contiene otro JSON adentro)
         body_json = json.loads(event["body"]) if isinstance(event["body"], str) else event["body"]
 
         if "body" not in body_json:
-            return {"statusCode": 400, "body": json.dumps("No Base64 data found in the request")}
-        
+            return {
+                "statusCode": 400,
+                "headers": CORS_HEADERS,
+                "body": json.dumps("No Base64 data found in the request")
+            }
+
         applicant_name = body_json.get("applicant_name")
         if not applicant_name:
-            return {"statusCode": 400, "body": json.dumps("No `applicant_name` found in the request")}
+            return {
+                "statusCode": 400,
+                "headers": CORS_HEADERS,
+                "body": json.dumps("No `applicant_name` found in the request")
+            }
 
         print(f'📄 applicant_name: {applicant_name}')
 
@@ -54,7 +78,11 @@ def lambda_handler(event, context):
         print("📄 PDF cargado correctamente")
 
         if len(reader.pages) == 0:
-            return {"statusCode": 400, "body": json.dumps("Error: PDF vacío")}
+            return {
+                "statusCode": 400,
+                "headers": CORS_HEADERS,
+                "body": json.dumps("Error: PDF vacío")
+            }
 
         page = reader.pages[0]
         extracted_text = page.extract_text() or "No se encontró texto en la primera página"
@@ -68,6 +96,7 @@ def lambda_handler(event, context):
 
         return {
             "statusCode": 200,
+            "headers": CORS_HEADERS,
             "body": json.dumps({"extracted_text": f"{extracted_text[:500]}..."}),  # Enviar solo los primeros 500 caracteres
         }
 
@@ -75,5 +104,6 @@ def lambda_handler(event, context):
         print("❌ Error procesando PDF:", str(e))
         return {
             "statusCode": 500,
+            "headers": CORS_HEADERS,
             "body": json.dumps(f"Error procesando PDF: {str(e)}")
         }

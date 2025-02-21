@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantic Search</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#" onclick="showPage('upload')">Subir CV</a></li>
+            <li><a href="#" onclick="showPage('search')">Búsqueda de Candidatos</a></li>
+        </ul>
+    </nav>
+    
+    <div id="upload" class="page">
+        <h2>Subir CV</h2>
+        <label for="applicantName">Nombre del Aplicante:</label>
+        <input type="text" id="applicantName" placeholder="Ingrese su nombre">
+        <label for="cvFile">Seleccionar archivo PDF:</label>
+        <input type="file" id="cvFile" accept="application/pdf">
+        <button onclick="uploadCV()">Subir CV</button>
+        <p id="uploadMessage"></p>
+    </div>
+    
+    <div id="search" class="page hidden">
+        <h2>Búsqueda de Candidatos</h2>
+        <label for="puesto">Puesto:</label>
+        <input type="text" id="puesto" placeholder="Ingrese el puesto">
+        <label for="descripcion">Descripción del Puesto:</label>
+        <textarea id="descripcion" placeholder="Ingrese la descripción"></textarea>
+        <label for="nResultados">Número de Resultados:</label>
+        <input type="number" id="nResultados" value="5">
+        <button onclick="searchCandidates()">Buscar</button>
+        <div id="searchResults"></div>
+    </div>
+    
+    <script src="assets/js/upload.js"></script>
+    <script src="assets/js/search.js"></script>
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -8,10 +8,20 @@ MANAGE_EMBEDDINGS_LAMBDA = os.getenv("MANAGE_EMBEDDINGS_LAMBDA")
 # 🔹 Configurar cliente de AWS Lambda
 lambda_client = boto3.client("lambda")
 
+CORS_HEADERS = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "OPTIONS,POST",
+    "Access-Control-Allow-Headers": "Content-Type"
+}
+
+
 def lambda_handler(event, context):
     """Recibe datos de API Gateway y ejecuta búsqueda en `manage_embeddings`."""
     try:
         print(f"📌 Recibiendo evento: {event}")
+
+        if event["httpMethod"] == "OPTIONS":
+            return {"statusCode": 200, "headers": CORS_HEADERS, "body": json.dumps("CORS: El servidor no permite esta solicitud")}
         
         # 🔹 Leer datos del request
         body = json.loads(event["body"])
@@ -21,7 +31,11 @@ def lambda_handler(event, context):
 
         # 🔹 Validaciones
         if not puesto or not descripcion_puesto:
-            return {"statusCode": 400, "body": json.dumps({"error": "Faltan parámetros requeridos"})}
+            return {
+                "statusCode": 400,
+                "headers": CORS_HEADERS,
+                "body": json.dumps({"error": "Faltan parámetros requeridos"})
+            }
 
         # 🔹 Concatenar los textos
         consulta_texto = f"{puesto}. {descripcion_puesto}"
@@ -44,11 +58,13 @@ def lambda_handler(event, context):
 
         return {
             "statusCode": 200,
+            "headers": CORS_HEADERS,
             "body": response_payload["body"]
         }
 
     except Exception as e:
         return {
             "statusCode": 500,
+            "headers": CORS_HEADERS,
             "body": json.dumps({"error": str(e)})
         }
