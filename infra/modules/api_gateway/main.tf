@@ -22,7 +22,7 @@ resource "aws_api_gateway_integration" "lambda_upload_cv" {
   http_method = aws_api_gateway_method.post_upload.http_method
   integration_http_method = "POST"
   type        = "AWS_PROXY"
-  uri         = var.lambda_arn
+  uri         = var.lambda_upload_cv_arn
 }
 
 resource "aws_api_gateway_deployment" "upload_deployment" {
@@ -38,7 +38,9 @@ resource "aws_api_gateway_deployment" "upload_deployment" {
 
   depends_on = [
     aws_api_gateway_method.post_upload, 
-    aws_api_gateway_integration.lambda_upload_cv
+    aws_api_gateway_integration.lambda_upload_cv,
+    aws_api_gateway_method.post_search,
+    aws_api_gateway_integration.lambda_search
   ]
 }
 
@@ -46,4 +48,28 @@ resource "aws_api_gateway_stage" "upload_stage" {
   stage_name    = "dev"
   rest_api_id   = aws_api_gateway_rest_api.upload_api.id
   deployment_id = aws_api_gateway_deployment.upload_deployment.id
+}
+
+
+## Endpoint Semantic Search
+resource "aws_api_gateway_resource" "search" {
+  rest_api_id = aws_api_gateway_rest_api.upload_api.id
+  parent_id   = aws_api_gateway_rest_api.upload_api.root_resource_id
+  path_part   = "search"
+}
+
+resource "aws_api_gateway_method" "post_search" {
+  rest_api_id   = aws_api_gateway_rest_api.upload_api.id
+  resource_id   = aws_api_gateway_resource.search.id
+  http_method   = "POST"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "lambda_search" {
+  rest_api_id             = aws_api_gateway_rest_api.upload_api.id
+  resource_id             = aws_api_gateway_resource.search.id
+  http_method             = aws_api_gateway_method.post_search.http_method
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = var.lambda_semantic_search_arn
 }

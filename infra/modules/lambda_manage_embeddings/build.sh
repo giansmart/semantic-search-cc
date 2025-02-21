@@ -3,8 +3,8 @@
 set -e  # 🚨 Detener ejecución si hay un error
 
 # 📌 Configurar variables
-PACKAGE_DIR="infra/modules/lambda_upload_cv/package"
-SERVICE_DIR="services/upload_cv"
+PACKAGE_DIR="infra/modules/lambda_manage_embeddings/package"
+SERVICE_DIR="services/manage_embeddings"
 
 echo "📌 Eliminando archivos anteriores..."
 rm -rf "$PACKAGE_DIR"
@@ -21,6 +21,6 @@ echo "✅ Contenido de package/:"
 ls -la "$PACKAGE_DIR"
 
 # 📌 Crear el ZIP
-cd "$PACKAGE_DIR" && zip -r ../lambda_upload.zip .
+cd "$PACKAGE_DIR" && zip -r ../lambda_manage_embeddings.zip .
 
 echo "✅ Lambda ZIP generado correctamente en infra/modules/lambda_upload_cv/lambda_upload.zip"

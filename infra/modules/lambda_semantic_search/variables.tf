@@ -13,7 +13,7 @@ variable "aws_account_id" {
   type        = string
 }
 
-variable "lambda_layer_arn" {
-  description = "ARN del Lambda Layer con dependencias"
+variable "lambda_manage_embeddings_name" {
+  description = "Nombre de la función Lambda manage_embeddings"
   type        = string
 }

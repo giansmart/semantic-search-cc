@@ -63,3 +63,6 @@ package-lock.json
 infra/package/**
 *.zip
 package
+*.txt
+*.pdf
+python/

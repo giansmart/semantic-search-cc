@@ -1,7 +1,6 @@
-variable "aws_region" {
-  description = "Región de AWS donde se desplegarán los servicios"
+variable "lambda_layer_arn" {
+  description = "ARN del Lambda Layer con dependencias"
   type        = string
-  default     = "us-east-1"  # Cambia esto si usas otra región
 }
 
 variable "openai_api_key" {

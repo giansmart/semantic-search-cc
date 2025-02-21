@@ -1,1 +1,8 @@
-pymupdf
+# pymupdf
+# pdfminer.six
+# PyPDF2
+# typing_extensions
+
+typing_extensions
+pypdf
+boto3
