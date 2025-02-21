@@ -20,18 +20,24 @@
         <input type="text" id="applicantName" placeholder="Ingrese su nombre">
         <label for="cvFile">Seleccionar archivo PDF:</label>
         <input type="file" id="cvFile" accept="application/pdf">
-        <button onclick="uploadCV()">Subir CV</button>
+        <button id="uploadButton" onclick="uploadCV()">Subir CV</button>
         <p id="uploadMessage"></p>
     </div>
     
     <div id="search" class="page hidden">
         <h2>Búsqueda de Candidatos</h2>
         <label for="puesto">Puesto:</label>
-        <input type="text" id="puesto" placeholder="Ingrese el puesto">
+        <input type="text" id="puesto" placeholder="Ingrese el puesto" style="font-size: 13px; width: 100%">
         <label for="descripcion">Descripción del Puesto:</label>
-        <textarea id="descripcion" placeholder="Ingrese la descripción"></textarea>
-        <label for="nResultados">Número de Resultados:</label>
-        <input type="number" id="nResultados" value="5">
+        <textarea id="descripcion" rows="8" placeholder="Describe el puesto..." style="font-size: 12px; width: 100%; resize: vertical;"></textarea>
+        <label for="nResultados">Número de resultados:</label>
+        <select id="nResultados" class="styled-dropdown">
+            <option value="5" selected>5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+        </select>
         <button onclick="searchCandidates()">Buscar</button>
         <div id="searchResults"></div>
     </div>

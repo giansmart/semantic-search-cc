@@ -64,6 +64,110 @@ button:hover {
 }
 
 #searchResults {
-    margin-top: 1rem;
+    margin-top: 2rem;
     text-align: left;
+}
+
+
+/* Estilo de la animación de carga */
+.loading-spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #007BFF;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 10px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Tarjeta de candidato */
+.candidate-card {
+    background: #fff;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.candidate-card h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.candidate-score {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.candidate-text {
+    font-size: 14px;
+    color: #666;
+}
+
+.show-more-btn {
+    background-color: #1dc354;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    margin-top: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.show-more-btn:hover {
+    background-color: #149926;
+}
+
+/* Estilo del spinner de carga */
+.loading-spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #007BFF;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 10px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Botón deshabilitado */
+#uploadButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* DropDonw */
+.styled-dropdown {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.styled-dropdown:hover {
+    border-color: #007BFF;
+    background-color: #f8f9fa;
+}
+
+.styled-dropdown:focus {
+    outline: none;
+    border-color: #0056b3;
+    box-shadow: 0 0 5px rgba(0, 91, 187, 0.5);
 }
